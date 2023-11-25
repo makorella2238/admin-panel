@@ -536,20 +536,20 @@ export default function Sending({
                     readOnly={!isEditPage}
                   />
                 </Form.Item>
+                {/*<Form.Item*/}
+                {/*  label='Вес нетто'*/}
+                {/*  name='net_weight'*/}
+                {/*>*/}
+                {/*  <Input*/}
+                {/*    addonAfter={isEditPage && 'кг'}*/}
+                {/*    style={{ width: 200 }}*/}
+                {/*    disabled={isEditPage}*/}
+                {/*    bordered={isEditPage}*/}
+                {/*    readOnly={!isEditPage}*/}
+                {/*  />*/}
+                {/*</Form.Item>*/}
                 <Form.Item
-                  label='Вес нетто'
-                  name='net_weight'
-                >
-                  <Input
-                    addonAfter={isEditPage && 'кг'}
-                    style={{ width: 200 }}
-                    disabled={isEditPage}
-                    bordered={isEditPage}
-                    readOnly={!isEditPage}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label='Вес брутто'
+                  label='Вес'
                   name='gross_weight'
                 >
                   <Input

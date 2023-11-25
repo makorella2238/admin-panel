@@ -77,7 +77,7 @@ export default function Sendings({ isSendingAir, setIsSendingAir }) {
       key: 'count',
     },
     {
-      title: 'Вес брутто',
+      title: 'Вес',
       sorter: (a, b) => a.weight - b.weight,
       dataIndex: 'weight',
       key: 'weight',

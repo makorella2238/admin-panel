@@ -84,7 +84,7 @@ function App() {
           <Route path="/sendings" element={<Sendings isSendingAir={isSendingAir} setIsSendingAir={setIsSendingAir} />} />
           <Route path="/sendings/:sendingId" element={<Sending isSendingAir={isSendingAir} />} />
           <Route path="/sendings/:sendingId/:placeId" element={<Place />} />
-          <Route path="/sendings/:id/:id/:id" element={<Product />} />
+          {/*<Route path="/sendings/:id/:id/:id" element={<Product />} />*/}
         </Route>
         <Route path="/login" element={<PageLogin />} />
       </Routes>

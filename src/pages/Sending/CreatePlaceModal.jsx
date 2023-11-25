@@ -11,8 +11,13 @@ import {
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { PropertyGap } from '../../pages/Sendings';
+import dayjs from "dayjs";
+import axios from "../../utils/axios";
+import {sqlInsert, sqlUpdate} from "../../utils/sql";
 const { Title } = Typography;
-export const CreatePlaceModal = ({ isModalOpen, handleCancel, title }) => {
+export const CreatePlaceModal = ({ isModalOpen, handleCancel, title, product, placeId, userId }) => {
+    const [ form ] = Form.useForm()
+    const initialValues = {...product}
   return (
     <Modal
       style={{ maxWidth: 800 }}
@@ -55,6 +60,29 @@ export const CreatePlaceModal = ({ isModalOpen, handleCancel, title }) => {
             gap: `${PropertyGap}px`,
             flexWrap: 'wrap',
             alignItems: 'flex-end',
+          }}
+          form={form}
+          initialValues={initialValues}
+          onFinish={async (values) => {
+              if (product === true) {
+                  const params = {
+                      tip: 'product',
+                      id_ref: placeId,
+                      ref_tip: 'place',
+                      pole: JSON.stringify(values),
+                      creator_id: userId,
+                      editor_id: userId
+                  }
+                  await axios.postWithAuth('/query/insert', { sql: sqlInsert('dataset', params ) })
+                  debugger
+              } else {
+                  const params = {
+                      pole: JSON.stringify(values)
+                  }
+                  await axios.postWithAuth('/query/update', { sql: sqlUpdate('dataset', params, `id=${product.id}`) })
+                  debugger
+              }
+              handleCancel()
           }}
         >
           <Select
@@ -175,14 +203,14 @@ export const CreatePlaceModal = ({ isModalOpen, handleCancel, title }) => {
             size='large'
             style={{ maxWidth: '250px' }}
           />
+          {/*<Input*/}
+          {/*  addonAfter='Вес нетто, кг'*/}
+          {/*  placeholder='10'*/}
+          {/*  size='large'*/}
+          {/*  style={{ maxWidth: '250px' }}*/}
+          {/*/>*/}
           <Input
-            addonAfter='Вес нетто, кг'
-            placeholder='10'
-            size='large'
-            style={{ maxWidth: '250px' }}
-          />
-          <Input
-            addonAfter='Вес брутто, кг'
+            addonAfter='Вес, кг'
             placeholder='10'
             size='large'
             style={{ maxWidth: '250px' }}

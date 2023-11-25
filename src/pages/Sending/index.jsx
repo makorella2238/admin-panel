@@ -31,6 +31,9 @@ import CreatePlaceModal from './CreatePlaceModal'
 import axios from '../../utils/axios'
 import { getSendingById, deleteSendingById, getPlacesBySendingId, deletePlaceById } from '../../utils/api'
 import { SENDING_STATUS } from '../../consts'
+import CreateProductModal from "../Place/СreateProductModal";
+import {useSelector} from "react-redux";
+import {getUserProfile} from "../../redux/user";
 
 const { Title, Link } = Typography
 
@@ -53,7 +56,7 @@ export default function Sending({
       queryFn: getPlacesBySendingId(sendingId)
     }
   ])
-
+    const user = useSelector(getUserProfile)
   const isNew = sendingId === 'create'
   const isEditPage = isNew || searchParams.get('edit') !== null
 
@@ -88,6 +91,8 @@ export default function Sending({
   const [infoModalOpen, setInfoModalOpen] = useState(false)
   const [createPlace, setCreatePlace] = useState(false)
   const [nextPage, setNextPage] = useState(0)
+    const [editProduct, setEditProduct] = useState(false)
+
 
   const columns = [
     {
@@ -107,7 +112,7 @@ export default function Sending({
       key: 'place',
     },
     {
-      title: 'Вес брутто',
+      title: 'Вес',
       dataIndex: 'gross_weight',
       key: 'gross_weight',
       sorter: (a, b) => a.gross_weight - b.gross_weight,
@@ -363,19 +368,19 @@ export default function Sending({
                     readOnly={!isEditPage}
                   />
                 </Form.Item>
+                {/*<Form.Item*/}
+                {/*  label='Вес нетто'*/}
+                {/*  name={['json', 'net_weight']}*/}
+                {/*>*/}
+                {/*  <InputNumber*/}
+                {/*    style={{ width: 120 }}*/}
+                {/*    addonAfter={isEditPage && 'кг'}*/}
+                {/*    bordered={isEditPage}*/}
+                {/*    readOnly={!isEditPage}*/}
+                {/*  />*/}
+                {/*</Form.Item>*/}
                 <Form.Item
-                  label='Вес нетто'
-                  name={['json', 'net_weight']}
-                >
-                  <InputNumber
-                    style={{ width: 120 }}
-                    addonAfter={isEditPage && 'кг'}
-                    bordered={isEditPage}
-                    readOnly={!isEditPage}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label='Вес брутто'
+                  label='Вес'
                   name={['json', 'gross_weight']}
                 >
                   <InputNumber
@@ -496,8 +501,9 @@ export default function Sending({
               <Button
                 type='primary'
                 onClick={() => {
+                    setCreatePlace(true)
                   // editHandle(true)
-                  navigate(location.pathname + `/create`)
+                  // navigate(location.pathname + `/create`)
                 }}
                 size={'large'}
               >
@@ -529,11 +535,17 @@ export default function Sending({
           dataSource={placesData}
           rowKey={({ id }) => id}
           onRow={(record) => ({
-            onClick: (e) => {
-              if (e.detail === 2) {
-                navigate(`${location.pathname}/${record.id}`)
-              }
-            },
+              onClick: (e) => {
+                  if (e.detail === 2) {
+                      setNextPage(1)
+                      setEditProduct(record)
+                  }
+              },
+              // onClick: (e) => {
+              //     if (e.detail === 2) {
+              //         navigate(`${location.pathname}/${record.id}`)
+              //     }
+              // },
           })}
           size='small'
           style={{ overflow: 'scroll' }}
@@ -548,7 +560,7 @@ export default function Sending({
         handleCancel={() => setFilterModalOpen(false)}
         columns={columns.filter((item) => item.title != '')}
       />
-      <CreatePlaceModal
+        <CreatePlaceModal
         title={`Создать место`}
         isModalOpen={createPlace}
         handleCancel={() => setCreatePlace(false)}
@@ -558,6 +570,17 @@ export default function Sending({
         isModalOpen={infoModalOpen}
         handleCancel={() => setInfoModalOpen(false)}
       />
+        {!!editProduct && <CreatePlaceModal
+            title={editProduct === true ? 'Создать место' : 'Редактировать место'}
+            isModalOpen={!!editProduct}
+            handleCancel={() => {
+                setEditProduct(false)
+                places.refetch()
+            }}
+            placeId={sendingId}
+            userId={user.u_id}
+            product={editProduct}
+        />}
     </>
   )
 }
