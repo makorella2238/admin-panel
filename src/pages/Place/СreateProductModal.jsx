@@ -8,6 +8,7 @@ import axios from '../../utils/axios'
 const { Title } = Typography
 
 export const CreateProductModal = ({ isModalOpen, handleCancel, title, placeId, userId, product = {} }) => {
+  debugger
   const [ form ] = Form.useForm()
   const initialValues = {
     ...product,
@@ -56,7 +57,7 @@ export const CreateProductModal = ({ isModalOpen, handleCancel, title, placeId, 
         form={form}
         initialValues={initialValues}
         onFinish={async (values) => {
-          if (product === true) {
+          if (product) {
             const params = {
               tip: 'product',
               id_ref: placeId,
@@ -66,11 +67,13 @@ export const CreateProductModal = ({ isModalOpen, handleCancel, title, placeId, 
               editor_id: userId
             }
             await axios.postWithAuth('/query/insert', { sql: sqlInsert('dataset', params ) })
+            debugger
           } else {
             const params = {
               pole: JSON.stringify(values)
             }
             await axios.postWithAuth('/query/update', { sql: sqlUpdate('dataset', params, `id=${product.id}`) })
+          debugger
           }
           handleCancel()
         }}
