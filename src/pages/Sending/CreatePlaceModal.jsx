@@ -11,7 +11,7 @@ export const CreatePlaceModal = ({isModalOpen, handleCancel, title, product, pla
     const initialValues = {...product,};
 
     const handleFormSubmit = async (values) => {
-        if (product && product.id) {
+        if (product === true) {
             // Код для обновления существующего места
             const params = {
                 pole: JSON.stringify(values)

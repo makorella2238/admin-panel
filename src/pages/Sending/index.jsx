@@ -502,8 +502,6 @@ export default function Sending({
                 type='primary'
                 onClick={() => {
                     setCreatePlace(true)
-                  // editHandle(true)
-                  // navigate(location.pathname + `/create`)
                 }}
                 size={'large'}
               >
@@ -563,14 +561,17 @@ export default function Sending({
         <CreatePlaceModal
         title={`Создать место`}
         isModalOpen={createPlace}
+        userId={user.u_id}
+        placeId={sendingId}
         handleCancel={() => setCreatePlace(false)}
       />
+
       <CreateSendingModal
         title={`Отправление ${nextPage}`}
         isModalOpen={infoModalOpen}
         handleCancel={() => setInfoModalOpen(false)}
       />
-        {!!editProduct && <CreatePlaceModal
+        {!!editProduct || createPlace && <CreatePlaceModal
             title={editProduct === true ? 'Создать место' : 'Редактировать место'}
             isModalOpen={!!editProduct}
             handleCancel={() => {
