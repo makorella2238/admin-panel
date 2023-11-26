@@ -8,7 +8,7 @@ import {sqlInsert, sqlUpdate} from "../../utils/sql";
 const {Title} = Typography;
 export const CreatePlaceModal = ({isModalOpen, handleCancel, title, product, placeId, userId}) => {
     const [form] = Form.useForm();
-    const initialValues = {...product};
+    const initialValues = {...product,};
 
     const handleFormSubmit = async (values) => {
         if (product && product.id) {
@@ -242,8 +242,14 @@ export const CreatePlaceModal = ({isModalOpen, handleCancel, title, product, pla
                         />
                     </Form.Item>
 
-                    <div>
+                    <div style={{
+                        maxWidth: '250px',
+                        width: '100%',
+                        height: '40px',
+                        lineHeight: '40px',
+                    }}>
                     <Form.Item name="note">
+
                         <TextArea placeholder='Примечание' rows={4}/>
                     </Form.Item>
                     </div>
