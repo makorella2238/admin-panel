@@ -571,7 +571,7 @@ export default function Sending({
         isModalOpen={infoModalOpen}
         handleCancel={() => setInfoModalOpen(false)}
       />
-        {!!editProduct || createPlace && <CreatePlaceModal
+        {!!editProduct  && <CreatePlaceModal
             title={editProduct === true ? 'Создать место' : 'Редактировать место'}
             isModalOpen={!!editProduct}
             handleCancel={() => {

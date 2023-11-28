@@ -16,9 +16,7 @@ export const CreatePlaceModal = ({isModalOpen, handleCancel, title, product, pla
             const params = {
                 pole: JSON.stringify(values)
             };
-            debugger
             await axios.postWithAuth('/query/update', {sql: sqlUpdate('dataset', params, `id=${product.id}`)})
-            debugger
         } else {
             // Код для создания нового места
             const params = {
@@ -30,9 +28,9 @@ export const CreatePlaceModal = ({isModalOpen, handleCancel, title, product, pla
                 editor_id: userId
             };
             await axios.postWithAuth('/query/insert', {sql: sqlInsert('dataset', params)});
-            debugger
         }
         handleCancel();
+        form.resetFields()
     };
 
     return (
@@ -52,7 +50,10 @@ export const CreatePlaceModal = ({isModalOpen, handleCancel, title, product, pla
                 </Title>
             }
             open={isModalOpen}
-            onCancel={handleCancel}
+            onCancel={() => {
+                form.resetFields()
+                handleCancel()
+            }}
             footer={[
                 <Button
                     key='1'
@@ -190,7 +191,7 @@ export const CreatePlaceModal = ({isModalOpen, handleCancel, title, product, pla
                                     color: '#757575',
                                 }}
                             >
-                                Дата отправки
+                                {/*Дата отправки*/}
                             </div>
                             <DatePicker size='large'/>
                         </div>
